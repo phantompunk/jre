@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -20,55 +21,65 @@ type Quote struct {
 	Quote string `json:"quote"`
 }
 
+func main() {
+	initializeDB()
+	r := gin.Default()
+	r.GET("quote", getRandomQuote)
+	r.GET("quote/:id", getQuoteById)
+
+	// By default serves on :8080 unless a
+	// PORT environment variable is supplied
+	r.Run()
+}
+
 func GetRandomQuote() (*Quote, error) {
-	res, err := DB.Query("SELECT id, quote FROM quotes ORDER BY RANDOM() LIMIT 1;")
-	if err != nil {
-		log.Fatal("Error occurred while querying database", err.Error())
-		return nil, err
-	}
-	defer res.Close()
-
 	quote := &Quote{}
-	for res.Next() {
-		err = res.Scan(&quote.ID, &quote.Quote)
-
-		if err != nil {
-			return nil, err
+	err := DB.QueryRow("SELECT id, quote FROM quotes ORDER BY RANDOM() LIMIT 1;").Scan(&quote.ID, &quote.Quote)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, fmt.Errorf("Error occured while querying for random quote: %v", err.Error())
 		}
+		return nil, fmt.Errorf("Unknown error occured querying database: %v", err.Error())
 	}
 	return quote, nil
 }
 
-func quote(ctx *gin.Context) {
-	quote, err := GetRandomQuote()
+func GetQuoteById(id string) (*Quote, error) {
+	quote := &Quote{}
+	err := DB.QueryRow("SELECT id, quote FROM quotes WHERE id = ?;", id).Scan(&quote.ID, &quote.Quote)
 	if err != nil {
-		log.Fatal(err)
+		if err == sql.ErrNoRows {
+			return nil, fmt.Errorf("Error occured while querying for quote id:%v, %v", id, err.Error())
+		}
+		return nil, fmt.Errorf("Unknown error occured querying database for id:%v, %v", id, err.Error())
 	}
+	return quote, nil
+}
 
-	ctx.JSON(http.StatusOK, quote)
+func getRandomQuote(ctx *gin.Context) {
+	quote, err := GetRandomQuote()
+	checkErr(err)
+
+	if quote == nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "No quotes found"})
+	} else {
+		ctx.JSON(http.StatusOK, quote)
+	}
 }
 
 func getQuoteById(ctx *gin.Context) {
-	quote, err := GetRandomQuote()
-	if err != nil {
-		log.Fatal(err)
-	}
+	id := ctx.Param("id")
+	quote, err := GetQuoteById(id)
+	checkErr(err)
 
-	ctx.JSON(http.StatusOK, quote)
+	if quote == nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Quote not found"})
+	} else {
+		ctx.JSON(http.StatusOK, quote)
+	}
 }
 
-func initRouter() *gin.Engine {
-	r := gin.Default()
-	r.GET("/", quote)
-	v1 := r.Group("/v1")
-	{
-		v1.GET("quote", quote)
-		v1.GET("quote/:id", getQuoteById)
-	}
-	return r
-}
-
-func initDB() error {
+func initializeDB() error {
 	db, err := sql.Open("sqlite3", "./db.db")
 	if err != nil {
 		log.Fatal("Not able to open database", err.Error())
@@ -78,8 +89,8 @@ func initDB() error {
 	return nil
 }
 
-func main() {
-	initDB()
-	r := initRouter()
-	r.Run(":8080")
+func checkErr(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
