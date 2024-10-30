@@ -24,6 +24,10 @@ type Quote struct {
 func main() {
 	initializeDB()
 	r := gin.Default()
+	r.StaticFile("/styles.css", "./static/styles.css")
+	r.LoadHTMLFiles("templates/index.html", "templates/quote.html")
+	r.GET("/", pageHome)
+	r.GET("refresh", pageRefresh)
 	r.GET("quote", getRandomQuote)
 	r.GET("quote/:id", getQuoteById)
 
@@ -56,6 +60,16 @@ func GetQuoteById(id string) (*Quote, error) {
 	return quote, nil
 }
 
+func pageHome(ctx *gin.Context) {
+	quote, _ := GetRandomQuote()
+	ctx.HTML(http.StatusOK, "index.html", quote)
+}
+
+func pageRefresh(ctx *gin.Context) {
+	quote, _ := GetRandomQuote()
+	ctx.HTML(http.StatusOK, "quote.html", quote)
+}
+
 func getRandomQuote(ctx *gin.Context) {
 	quote, err := GetRandomQuote()
 	checkErr(err)
@@ -80,7 +94,7 @@ func getQuoteById(ctx *gin.Context) {
 }
 
 func initializeDB() error {
-	db, err := sql.Open("sqlite3", "./db.db")
+	db, err := sql.Open("sqlite3", "./database/db.db")
 	if err != nil {
 		log.Fatal("Not able to open database", err.Error())
 		return err
