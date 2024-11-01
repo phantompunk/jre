@@ -27,7 +27,7 @@ func main() {
 	r.StaticFile("/styles.css", "./static/styles.css")
 	r.LoadHTMLFiles("templates/index.html", "templates/quote.html")
 	r.GET("/", pageHome)
-	r.GET("refresh", pageRefresh)
+	r.GET("/text", pageRefresh)
 	r.GET("quote", getRandomQuote)
 	r.GET("quote/:id", getQuoteById)
 

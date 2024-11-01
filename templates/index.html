@@ -11,7 +11,7 @@
     <div class="relative flex min-h-screen flex-col justify-center bg-blue-50">
       <div class="relative px-6 pt-8 pb-6 bg-red-50 myshadow sm:mx-auto">
         <div class="mx-auto max-w-md">
-          <div class="text-center">
+          <div class="text-cernter">
             JRE.rest
           </div>
           <div class="py-4">
@@ -21,11 +21,11 @@
           </div>
           <div class="mx-auto w-1/2 text-center">
             <!-- <button hx-get="/quote" hx-trigger="click" hx-target="#quote" hx-swap="outerHTML" type="" class="hover:text-white hover:bg-purple-600 rounded-full bg-cyan-500 px-4 py-1 mypill">Refresh</button> -->
-            <button hx-get="/refresh" hx-trigger="click" hx-target="#quote" hx-swap="outerHTML" type="" class="hover:text-white hover:bg-purple-600 rounded-full bg-cyan-500 px-4 py-1 mypill">Refresh</button>
+            <button hx-get="/text" hx-trigger="click" hx-target="#quote" hx-swap="outerHTML" type="" class="hover:text-white hover:bg-purple-600 rounded-full bg-cyan-500 px-4 py-1 mypill">Refresh</button>
           </div>
         </div>
       </div>
     </div>
-    <!-- <script>setInterval(function() {location.reload()}, 3000);</script> -->
+    <script>setInterval(function() {location.reload()}, 3000);</script>
 </body>
 </html>
