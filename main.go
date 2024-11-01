@@ -25,11 +25,13 @@ func main() {
 	initializeDB()
 	r := gin.Default()
 	r.StaticFile("/styles.css", "./static/styles.css")
-	r.LoadHTMLFiles("templates/index.html", "templates/quote.html")
+	r.StaticFile("/api.yaml", "./openapi.yaml")
+	r.LoadHTMLFiles("templates/index.html", "templates/quote.html", "templates/docs.html")
 	r.GET("/", pageHome)
-	r.GET("/text", pageRefresh)
-	r.GET("quote", getRandomQuote)
-	r.GET("quote/:id", getQuoteById)
+	r.GET("docs", pageDocs)
+	r.GET("api/text", pageRefresh)
+	r.GET("api/quote", getRandomQuote)
+	r.GET("api/quote/:id", getQuoteById)
 
 	// By default serves on :8080 unless a
 	// PORT environment variable is supplied
@@ -63,6 +65,10 @@ func GetQuoteById(id string) (*Quote, error) {
 func pageHome(ctx *gin.Context) {
 	quote, _ := GetRandomQuote()
 	ctx.HTML(http.StatusOK, "index.html", quote)
+}
+
+func pageDocs(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "docs.html", "")
 }
 
 func pageRefresh(ctx *gin.Context) {

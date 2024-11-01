@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+  title: JRE.Rest API Docs
+  description: |-
+    API & Web documentation.
+
+    Some useful links:
+    - [JRE.Rest Repository](https://github.com/phantompunk/jre)
+    - [Source API definition](https://github.com/phantompunk/jre/openapi.yaml)
+
+  contact:
+    email: apiteam@jre.rest
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about JRE.Rest
+  url: http://github.com/phantompunk/jre
+tags:
+  - name: quote
+    description: Quote
+    externalDocs:
+      description: Find out more
+      url: http://github.com/phantompunk/jre
+paths:
+  /text:
+     get:
+      tags:
+        - quote
+      summary: Return random quote as plain text
+      description: Multiple status values can be provided with comma separated strings
+      operationId: getQuoteText
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quote'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quote'
+        '400':
+          description: Invalid status value
+  /quote:
+     get:
+      tags:
+        - quote
+      summary: Return random quote object
+      description: Multiple status values can be provided with comma separated strings
+      operationId: getQuote
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quote'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quote'
+        '400':
+          description: Invalid status value
+  /quote/quoteId:
+    get:
+      tags:
+        - quote
+      summary: Return quote object for given id
+      description: Multiple status values can be provided with comma separated strings
+      operationId: getQuoteByID
+      parameters:
+        - name: quoteId
+          in: query
+          description: Status values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quote'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Quote'
+        '400':
+          description: Invalid status value
+components:
+  schemas:
+    Quote:
+      type: object
+      properties:
+        id:
+          type: string
+          example: fe64b9
+        qoute:
+          type: integer
+          example: "I'm a moron, don't take my advice"
+        speaker:
+          type: string
+          example: "Joe Rogan"
+        source:
+          type: string
+          example: "Episode #123"
+        date:
+          type: string
+          format: date-time
