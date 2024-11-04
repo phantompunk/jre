@@ -17,8 +17,11 @@ type Database struct {
 }
 
 type Quote struct {
-	ID    string `json:"id"`
-	Quote string `json:"quote"`
+	ID      string `json:"id"`
+	Quote   string `json:"quote"`
+	Speaker string `json:"speaker"`
+	Source  string `json:"source"`
+	Data    string `json:"date"`
 }
 
 func main() {
