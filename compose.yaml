@@ -1,12 +1,11 @@
 services:
   server:
     image: jrerest:latest
-    container_name: jrerest
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jrerest.rule=Host(`rigo.cc`)"
       - "traefik.http.routers.jrerest.entrypoints=websecure"
-      - "traefik.http.routers.jrerest.certsresolver=myresolver"
+      - "traefik.http.routers.jrerest.tls.certresolver=myresolver"
     deploy: 
       mode: replicated
       replicas: 3
@@ -17,14 +16,15 @@ services:
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
       - "--entryPoints.websecure.address=:443"
-      - "--certificateresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificateresolvers.myresolver.acme.email=rigo@rigo.cc"
-      - "--certificateresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=rigo@rigo.cc"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
     ports:
       - "443:443"
       - "8080:8080"
     volumes:
       - letsencrypt:/letsencrypt
-      - /var/run/docker.sock:/var/run/docker.sock
-volumes:
-  letsencrypt:
+
