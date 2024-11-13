@@ -15,7 +15,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-    - url: http://localhost:8080/api/
+  - url: http://localhost:8080/api/
 externalDocs:
   description: Find out more about JRE.Rest
   url: http://github.com/phantompunk/jre
@@ -111,12 +111,8 @@ components:
         id:
           type: string
           example: fe64b9
-<<<<<<< Updated upstream
-        qoute:
-=======
         quote:
->>>>>>> Stashed changes
-          type: integer
+          type: string
           example: "I'm a moron, don't take my advice"
         speaker:
           type: string
