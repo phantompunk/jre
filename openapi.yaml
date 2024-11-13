@@ -37,16 +37,10 @@ paths:
         '200':
           description: successful operation
           content:
-            application/json:
+            text/plain:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Quote'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Quote'
+                type: string
+                example: "<p>I'm a moron, don't take my advice</p>"
         '400':
           description: Invalid status value
   /quote:
