@@ -114,6 +114,6 @@ func initializeDB() error {
 
 func checkErr(err error) {
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("%v",err.Error())
 	}
 }

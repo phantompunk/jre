@@ -1,0 +1,6 @@
+services:
+  server:
+    image: jrerest:latest
+    container_name: jrerest
+    ports:
+      - 8080:8080
