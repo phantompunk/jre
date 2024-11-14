@@ -12,15 +12,7 @@ import (
 func CreateDatabase(t *testing.T) *Database {
 	t.Helper()
 
-	t.Log("CreatingDB")
 	db := NewDatabase(WithBaseUrl("../database/db.db"))
-	// sqlite, err := sql.Open("sqlite3", "./database/db.db")
-	// if err != nil {
-	// 	t.Log("Not able to open database", err.Error())
-	// 	t.Fatal(err)
-	// }
-	// db.DB = sqlite
-	t.Log("CreatedDB", db)
 	if err := db.Connect(); err != nil {
 		t.Fatal(err)
 	}
@@ -43,8 +35,8 @@ func TestGetQuoteByID(t *testing.T) {
 		require.NotNil(t, db)
 		id := "ba28b5"
 		quote, err := db.GetQouteById(context.Background(), id)
-		// require.Equal(t, id, quote.ShortID)
 		require.NoError(t, err)
+		require.Equal(t, id, quote.ShortID)
 		require.NotEmpty(t, quote.Quote)
 	})
 }
