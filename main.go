@@ -33,8 +33,20 @@ func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()
 
-	if err := app.Start(ctx); err != nil {
-		log.Fatal("Failed to start app", err.Error())
-		os.Exit(1)
+	// Start the app in a goroutine
+	errChan := make(chan error)
+	go func() {
+		errChan <- app.Start(ctx)
+	}()
+
+	// Wait for app to finish or for context cancellation
+	select {
+	case <-ctx.Done():
+		log.Println("Shutting down gracefully...")
+	case err := <-errChan:
+		if err != nil {
+			log.Fatal("App error:", err)
+			os.Exit(1)
+		}
 	}
 }
