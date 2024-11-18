@@ -11,18 +11,10 @@ import (
 	"github.com/phantompunk/jre.list/sql"
 )
 
-type Quote struct {
-	ID      string `json:"id"`
-	Quote   string `json:"quote"`
-	Speaker string `json:"speaker"`
-	Source  string `json:"source"`
-	Data    string `json:"date"`
-}
-
 //go:embed static/*
 var assets embed.FS
 
-//go:embed templates/*.html
+//go:embed templates/*
 var templates embed.FS
 
 func main() {
