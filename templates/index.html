@@ -1,90 +1,61 @@
 <!doctype html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/styles.css" rel="stylesheet">
-  <script src="https://unpkg.com/htmx.org@2.0.1"></script>
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-</head>
-<body>
-    <div class="flex min-h-screen flex-col justify-center bg-maroon text-tan txext-lg px-4">
-      <header class="mx-auto text-center pt-20">
-        <big>JRE.REST</big>
-        <p>API for the funniest/dumbest/wisest things said on the JRE podcast</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/styles.css" rel="stylesheet" />
+    <script src="https://unpkg.com/htmx.org@2.0.1"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  </head>
+  <body class="bg-maroon">
+    <div class="bg-maroon text-tan txext-lg flex min-h-screen flex-col justify-center px-2">
+      <header class="mx-auto pt-14 text-center">
+        <big class="text-2xl">JRE.REST</big>
+        <p class="pt-10"><a href="">jre.rest</a> an API for the funniest, dumbest, and wisest things said on the JRE podcast.</p>
       </header>
 
-      <div class="md:max-w-lg mx-auto py-10 ">
-        <section class="flex justify-between px-2 pb-4">
-          <a href="https://api.jre.rest"><p class="hover:text-purple-600">api.jre.rest</p></a>
-          <a href="https://docs.jre.rest"><p class="hover:text-purple-600">docs</p></a>
+      <div class="mx-auto w-full py-10 sm:max-w-lg">
+        <section class="flex justify-between px-2 pb-4 font-mono text-lg">
+          <a href="https://api.jre.rest"><p class="hover:text-berry underline decoration-wavy">api.jre.rest</p></a>
+          <a href="https://docs.jre.rest"><p class="hover:text-berry underline decoration-wavy">api docs</p></a>
         </section>
-        <section class="rounded-lg bg-orange-200 px-6 py-8 text-maroon">
-          <blockquote id="quote" class="pb-4 font-mono" cite="">
-            {{ .Quote }}
-          </blockquote>
-          <p class="text-end text-berry">— Joe Rogan</p>
+        <section class="text-maroon myshadow rounded-lg bg-orange-200 px-6 py-8">
+          <blockquote id="quote" class="pb-4 pl-2 font-mono" cite="">{{ .Quote }}</blockquote>
+          <p class="text-berry px-4 py-2 text-end">— {{ .Speaker }} <a href="">({{ .Source }})</a></p>
         </section>
         <section class="pt-6 text-center">
-          <button class="rounded bg-red-500 px-5 py-2" hx-get="/api/text" hx-trigger="click" hx-target="#quote" hx-swap="outerHTML" type="">Refresh</button>
+          <button class="bg-berry mypill rounded px-5 py-2" hx-get="/api/text" hx-trigger="click" hx-target="#quote" hx-swap="outerHTML" type="">Refresh</button>
         </section>
       </div>
 
-      <footer class="mx-auto max-w-xs text-center">
-        <hr class="pb-4">
+      <footer class="pat-10 mx-auto mb-14 mt-10 max-w-xs text-center text-sm">
+        <hr class="border-berry pb-2" />
         <section class="py-2">
           <small class="">
             <p>jre.rest is free and will always be free!</p>
             <p>Created and maintained by <a href="https://rigomoran.com">rigomoran.com</a></p>
           </small>
         </section>
-        <section class="flex px-2 py-2 justify-center">
-          <a href="https://github.com/phantompunk/jre"><p class="px-2 hover:text-purple-600">Github</p></a> •
-          <a href="https://bsky.app/profile/rigomoran.com"><p class="px-2 hover:text-purple-600">Bluesky</p></a>
+        <section class="flex justify-center px-2 py-2">
+          <a href="https://github.com/phantompunk/jre"><p class="hover:text-berry px-2 underline decoration-wavy">Github</p></a> •
+          <a href="https://bsky.app/profile/rigomoran.com"><p class="hover:text-berry px-2 underline decoration-wavy">Bluesky</p></a>
         </section>
+        <!-- <section class="py-2"> -->
+        <!--   <small class=""> -->
+        <!--     <p><strong>Attribution:</strong> JRE artwork and theme by <a href="https://x.com/milosboyk">@milosboyk</a></p> -->
+        <!--   </small> -->
+        <!-- </section> -->
         <section class="py-2">
           <small class="">
-            <p><strong>Attribution:</strong> JRE artwork and theme by <a href="https://x.com/milosboyk">@milosboyk</a></p>
-          </small>
-        </section>
-        <section class="py-2">
-          <small class="">
-            <p><strong>Legal Disclaimer:</strong>This app and its creators are not affiliated with Joe Rogan or any related entities. Quotes and excerpts provided are from publicly available episodes of <em>The Joe Rogan Experience</em> podcast. By using this app, you acknowledge that it does not guarantee accuracy or claim ownership of any podcast content.</p>
+            <p><strong>Legal Disclaimer:</strong>This app and its creators are not affiliated with Joe Rogan or any related entities. Quotes and excerpts provided are from publicly available episodes of <em>The Joe Rogan Experience</em> podcast. Content on this app is not guaranteed to be accurate.</p>
           </small>
         </section>
         <section class="py-2">
           <small>
-            <p><em>Privacy statement</em> • <em>Status</em></p>
+            <p><em>Status</em></p>
           </small>
         </section>
       </footer>
     </div>
-
-    <div class="relative flex min-h-screen flex-col justify-center bg-purple-50">
-      <div class="relative px-6 pt-8 pb-6 bg-red-50 myshadow sm:mx-auto">
-        <div class="mx-auto max-w-md sm:max-w-sm">
-          <div class="text-center font-bold font-weight-800">
-            JRE.Rest
-          </div>
-          <div class="py-4">
-            <blockquote id="quote" class="font-mono" cite="">
-              {{ .Quote }}
-            </blockquote>
-          </div>
-          <div class="font-mono text-end">
-            – Joe Rogan
-          </div>
-          <div class="mx-auto w-1/2 text-center pt-4">
-            <!-- <button hx-get="/quote" hx-trigger="click" hx-target="#quote" hx-swap="outerHTML" type="" class="hover:text-white hover:bg-purple-600 rounded-full bg-cyan-500 px-4 py-1 mypill">Refresh</button> -->
-            <button hx-get="/api/text" hx-trigger="click" hx-target="#quote" hx-swap="outerHTML" type="" class="hover:text-white hover:bg-purple-600 rounded-full bg-cyan-500 px-4 py-1 mypill">Refresh</button>
-          </div>
-        </div>
-      </div>
-      <div class="mx-auto flex pt-8">
-        <a href="https://github.com/phantompunk/jre"><p class="px-2 hover:text-purple-600">Github</p></a>
-        <a href="https://bsky.app/profile/rigomoran.com"><p class="px-2 hover:text-purple-600">Bluesky</p></a>
-      </div>
-    </div>
-    <!-- <script>setInterval(function() {location.reload()}, 3000);</script> -->
-</body>
+  </body>
 </html>
