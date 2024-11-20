@@ -5,10 +5,18 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"time"
-	_ "github.com/mattn/go-sqlite3"
 )
+
+type Service interface {
+	Health() map[string]string
+	Close() error
+}
+
+type service struct {
+}
 
 type Time struct {
 	T time.Time
@@ -82,11 +90,11 @@ func (d *Database) Connect() error {
 
 func (d *Database) GetQouteById(ctx context.Context, id string) (*Quote, error) {
 	var q Quote
-	query := "SELECT id, quote FROM quotes WHERE id = ?;"
+	query := "SELECT id, quote, speaker, source FROM quotes WHERE id = ?;"
 
 	var args []any
 	args = append(args, id)
-	err := d.DB.QueryRowContext(ctx, query, args...).Scan(&q.ShortID, &q.Quote)
+	err := d.DB.QueryRowContext(ctx, query, args...).Scan(&q.ShortID, &q.Quote, &q.Speaker, &q.Source)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, fmt.Errorf("Error occured while querying for quote id:%v, %v", id, err.Error())
@@ -98,9 +106,9 @@ func (d *Database) GetQouteById(ctx context.Context, id string) (*Quote, error) 
 
 func (d *Database) GetRandomQoute(ctx context.Context) (*Quote, error) {
 	var q Quote
-	query := "SELECT id, quote FROM quotes ORDER BY RANDOM() LIMIT 1;"
+	query := "SELECT id, quote, speaker, source FROM quotes ORDER BY RANDOM() LIMIT 1;"
 
-	err := d.DB.QueryRowContext(ctx, query).Scan(&q.ShortID, &q.Quote)
+	err := d.DB.QueryRowContext(ctx, query).Scan(&q.ShortID, &q.Quote, &q.Speaker, &q.Source)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, fmt.Errorf("Error occured while querying for random quote: %v", err.Error())

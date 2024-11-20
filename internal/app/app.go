@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"embed"
-	"fmt"
 	"html/template"
 	"io/fs"
 	"log"
@@ -29,7 +28,7 @@ func LoadFilesFromEmbedFS(engine *gin.Engine, embedFS fs.FS, pattern string) {
 
 func LoadStaticFilesFromEmbedFS(engine *gin.Engine, embedFS fs.FS, pattern string) {
 	// Serve the embedded static files
-	staticFS, _ := fs.Sub(embedFS, "static")
+	staticFS, _ := fs.Sub(embedFS, "assets")
 	staticServer := http.FS(staticFS)
 	engine.StaticFS(pattern, staticServer)
 }
@@ -53,12 +52,7 @@ func (a *App) Start(ctx context.Context) error {
 		return err
 	}
 
-	entries, _ := a.assets.ReadDir("static")
-	for _, entry := range entries {
-		fmt.Println(entry.Name())
-	}
-
-	LoadFilesFromEmbedFS(a.router, a.templates, "templates/*")
+	LoadFilesFromEmbedFS(a.router, a.templates, "assets/templates/*")
 	LoadStaticFilesFromEmbedFS(a.router, a.assets, "/static")
 
 	a.router.GET("/", a.pageHome)
