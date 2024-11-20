@@ -9,11 +9,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/phantompunk/jre.list/sql"
+	"github.com/phantompunk/jre.list/internal/db"
 )
 
 type App struct {
-	database  *sql.Database
+	database  *db.Database
 	log       *log.Logger
 	port      int
 	assets    embed.FS
@@ -33,7 +33,7 @@ func LoadStaticFilesFromEmbedFS(engine *gin.Engine, embedFS fs.FS, pattern strin
 	engine.StaticFS(pattern, staticServer)
 }
 
-func New(db *sql.Database, log *log.Logger, templates, assets embed.FS) *App {
+func New(db *db.Database, log *log.Logger, templates, assets embed.FS) *App {
 	r := gin.Default()
 
 	return &App{

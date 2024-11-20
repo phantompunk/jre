@@ -8,7 +8,7 @@ import (
 	"os/signal"
 
 	"github.com/phantompunk/jre.list/internal/app"
-	"github.com/phantompunk/jre.list/sql"
+	"github.com/phantompunk/jre.list/internal/db"
 )
 
 //go:embed assets/*.css assets/*.js assets/*.yaml
@@ -19,7 +19,7 @@ var templates embed.FS
 
 func main() {
 	logger := log.Default()
-	db := sql.NewDatabase(sql.WithBaseUrl("./database/db.db"))
+	db := db.NewDatabase(db.WithBaseUrl("./database/db.db"))
 
 	app := app.New(db, logger, templates, assets)
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
