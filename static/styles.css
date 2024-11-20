@@ -753,6 +753,11 @@ video {
   color: rgb(227 67 75 / var(--tw-text-opacity));
 }
 
+.hover\:text-tan:hover {
+  --tw-text-opacity: 1;
+  color: rgb(243 187 140 / var(--tw-text-opacity));
+}
+
 @media (min-width: 640px) {
   .sm\:max-w-lg {
     max-width: 32rem;

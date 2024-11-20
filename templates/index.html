@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/styles.css" rel="stylesheet" />
+    <link href="/static/styles.css" rel="stylesheet" />
     <script src="https://unpkg.com/htmx.org@2.0.1"></script>
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   </head>
@@ -15,9 +15,9 @@
       </header>
 
       <div class="mx-auto w-full py-10 sm:max-w-lg">
-        <section class="flex justify-between px-2 pb-4 font-mono text-lg">
-          <a href="https://api.jre.rest"><p class="hover:text-berry underline decoration-wavy">api.jre.rest</p></a>
-          <a href="https://docs.jre.rest"><p class="hover:text-berry underline decoration-wavy">api docs</p></a>
+        <section class="flex justify-between px-2 pb-4 font-mono text-berry text-lg">
+          <a href="https://api.jre.rest"><p class="hover:text-tan underline decoration-wavy">api.jre.rest</p></a>
+          <a href="https://docs.jre.rest"><p class="hover:text-tan underline decoration-wavy">api docs</p></a>
         </section>
         <section class="text-maroon myshadow rounded-lg bg-orange-200 px-6 py-8">
           <blockquote id="quote" class="pb-4 pl-2 font-mono" cite="">{{ .Quote }}</blockquote>

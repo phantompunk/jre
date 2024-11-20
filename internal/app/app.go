@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"embed"
+	"fmt"
 	"html/template"
 	"io/fs"
 	"log"
@@ -16,8 +17,8 @@ type App struct {
 	database  *sql.Database
 	log       *log.Logger
 	port      int
-	assets    fs.FS
-	templates fs.FS
+	assets    embed.FS
+	templates embed.FS
 	router    *gin.Engine
 }
 
@@ -28,7 +29,8 @@ func LoadFilesFromEmbedFS(engine *gin.Engine, embedFS fs.FS, pattern string) {
 
 func LoadStaticFilesFromEmbedFS(engine *gin.Engine, embedFS fs.FS, pattern string) {
 	// Serve the embedded static files
-	staticServer := http.FS(embedFS)
+	staticFS, _ := fs.Sub(embedFS, "static")
+	staticServer := http.FS(staticFS)
 	engine.StaticFS(pattern, staticServer)
 }
 
@@ -51,11 +53,14 @@ func (a *App) Start(ctx context.Context) error {
 		return err
 	}
 
+	entries, _ := a.assets.ReadDir("static")
+	for _, entry := range entries {
+		fmt.Println(entry.Name())
+	}
+
 	LoadFilesFromEmbedFS(a.router, a.templates, "templates/*")
-	// TODO load files using embed.FS
-	// LoadStaticFilesFromEmbedFS(a.router, a.assets, "/static")
-	a.router.StaticFile("/styles.css", "./static/styles.css")
-	a.router.StaticFile("/api.yaml", "./static/api.yaml")
+	LoadStaticFilesFromEmbedFS(a.router, a.assets, "/static")
+
 	a.router.GET("/", a.pageHome)
 	a.router.GET("docs", a.pageDocs)
 	a.router.GET("api/text", a.pageRefresh)
