@@ -90,7 +90,7 @@ func (d *Database) Connect() error {
 
 func (d *Database) GetQouteById(ctx context.Context, id string) (*Quote, error) {
 	var q Quote
-	query := "SELECT id, quote, speaker, source FROM quotes WHERE id = ?;"
+	query := "SELECT shortId, quote, speaker, source FROM quotes WHERE shortId = ?;"
 
 	var args []any
 	args = append(args, id)

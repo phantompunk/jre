@@ -12,7 +12,7 @@ import (
 func CreateDatabase(t *testing.T) *Database {
 	t.Helper()
 
-	db := NewDatabase(WithBaseUrl("../database/db.db"))
+	db := NewDatabase(WithBaseUrl("test.db"))
 	if err := db.Connect(); err != nil {
 		t.Fatal(err)
 	}
