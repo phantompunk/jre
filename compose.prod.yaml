@@ -1,6 +1,6 @@
 services:
   server:
-    image: jrerest:latest
+    image: ghcr.io/phantompunk/jrerest:latest
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jrerest.rule=Host(`rigo.cc`)"
@@ -10,6 +10,7 @@ services:
     deploy: 
       mode: replicated
       replicas: 3
+    restart: always
   watchtower:
     image: containrrr/watchtower
     command:
@@ -32,8 +33,8 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
     ports:
-      - "80:80"
       - "443:443"
+      - "80:80"
     volumes:
       - letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock
