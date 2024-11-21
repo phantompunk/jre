@@ -1,0 +1,42 @@
+services:
+  server:
+    image: jrerest:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jrerest.rule=Host(`rigo.cc`)"
+      - "traefik.http.routers.jrerest.entrypoints=websecure"
+      - "traefik.http.routers.jrerest.tls.certresolver=myresolver"
+      - "com.centurylinklabs.watchtower.enable=true"
+    deploy: 
+      mode: replicated
+      replicas: 3
+  watchtower:
+    image: containrrr/watchtower
+    command:
+      - "--label-enable"
+      - "--interval"
+      - "30"
+      - "--rolling-restart"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  reverse-proxy:
+    image: traefik:v3.1
+    command:
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=rigo@rigo.cc"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--entryPoints.websecure.address=:443"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+volumes:
+  letsencrypt:
+

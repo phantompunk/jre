@@ -15,7 +15,7 @@ test-race:
 	go test -race ./...
 
 build: 
-	docker build -t phantompunk/jrerest:$(VERSION) .
+	docker build -t jrerest:$(VERSION) .
 
 up:
 	docker-compose up
