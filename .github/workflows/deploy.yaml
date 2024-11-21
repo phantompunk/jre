@@ -42,7 +42,7 @@ jobs:
       - name: Prepare image tags
         id: meta
         run: |
-          echo BASE=${{ env.REGISTRY }}/${{ github.repository }} >> $GITHUB_OUTPUT
+          echo BASE=${{ env.REGISTRY }}/${{ github.actor }}/jrerest >> $GITHUB_OUTPUT
           echo BUILD=${GITHUB_SHA::8 } >> $GITHUB_OUTPUT
           echo LATEST=latest >> $GITHUB_OUTPUT
 
