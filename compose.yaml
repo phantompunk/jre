@@ -1,5 +1,5 @@
 services:
   server:
-    image: phantompunk/jrerest:localdev
+    image: jrerest:localdev
     ports:
       - 8080:8080
