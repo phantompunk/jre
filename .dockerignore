@@ -1,0 +1,22 @@
+# Include any files or directories you do not
+# want to be copied to the container
+#
+# For more help, visit the .dockerignore file reference guide at
+# https://docs.docker.com/go/build-context-dockerignore/
+
+**/.env
+**/.git
+**/.project
+**/.DS_Store
+**/.settings
+**/.gitignore
+**/.classpath
+**/.dockerignore
+
+**/bin
+**/Dockerfile*
+**/compose.y*ml
+**/docker-compose*
+
+LICENSE
+README.md
