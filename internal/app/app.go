@@ -55,6 +55,7 @@ func (a *App) Start(ctx context.Context) error {
 	LoadFilesFromEmbedFS(a.router, a.templates, "assets/templates/*")
 	LoadStaticFilesFromEmbedFS(a.router, a.assets, "/static")
 
+	a.router.HEAD("/", a.head)
 	a.router.GET("/", a.pageHome)
 	a.router.GET("docs", a.pageDocs)
 	a.router.GET("api/text", a.pageRefresh)

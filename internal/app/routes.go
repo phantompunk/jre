@@ -7,6 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func (a *App) head(ctx *gin.Context) {
+	ctx.Status(http.StatusOK)
+}
+
 func (a *App) pageHome(ctx *gin.Context) {
 	quote, _ := a.database.GetRandomQoute(ctx)
 	ctx.HTML(http.StatusOK, "index.html", quote)
@@ -24,7 +28,7 @@ func (a *App) pageRefresh(ctx *gin.Context) {
 }
 
 func (a *App) getRandomQuote(ctx *gin.Context) {
-	quote, err := a.database.GetRandomQoute(ctx) 
+	quote, err := a.database.GetRandomQoute(ctx)
 	checkErr(err)
 
 	if quote == nil {
@@ -48,7 +52,6 @@ func (a *App) getQuoteById(ctx *gin.Context) {
 
 func checkErr(err error) {
 	if err != nil {
-		log.Printf("%v",err.Error())
+		log.Printf("%v", err.Error())
 	}
 }
-

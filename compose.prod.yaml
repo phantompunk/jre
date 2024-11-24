@@ -1,6 +1,6 @@
 services:
   server:
-    image: ghcr.io/phantompunk/jrerest:latest
+    image: ghcr.io/phantompunk/jre:latest
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jrerest.rule=Host(`rigo.cc`)"
