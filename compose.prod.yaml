@@ -3,7 +3,7 @@ services:
     image: ghcr.io/phantompunk/jre:latest
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jrerest.rule=Host(`rigo.cc`)"
+      - "traefik.http.routers.jrerest.rule=Host(`jre.rest`)"
       - "traefik.http.routers.jrerest.entrypoints=websecure"
       - "traefik.http.routers.jrerest.tls.certresolver=myresolver"
       - "com.centurylinklabs.watchtower.enable=true"
