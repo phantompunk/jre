@@ -19,9 +19,9 @@
           <a href="https://jre.rest/api/quote"><p class="hover:text-tan underline decoration-wavy">api.jre.rest</p></a>
           <a href="https://jre.rest/docs"><p class="hover:text-tan underline decoration-wavy">api docs</p></a>
         </section>
-        <section class="text-maroon myshadow rounded-lg bg-orange-200 px-6 py-8">
-          <blockquote id="quote" class="pb-4 pl-2 font-mono" cite="">{{ .Quote }}</blockquote>
-          <p class="text-berry px-4 py-2 text-end">— {{ .Speaker }} <a href=""></a></p>
+        <section id="quote" class="text-maroon myshadow rounded-lg bg-orange-200 px-6 py-8">
+          <blockquote class="pb-4 pl-2 font-mono" cite="">{{ .Quote }}</blockquote>
+          <p class="text-berry px-4 py-2 text-end"><a href="{{ .Link }}">— {{ .Speaker }} #{{ .Episode }}</a></p>
         </section>
         <section class="pt-6 text-center">
           <button class="bg-berry mypill rounded px-5 py-2" hx-get="/api/text" hx-trigger="click" hx-target="#quote" hx-swap="outerHTML" type="">Refresh</button>
