@@ -36,7 +36,7 @@ func TestGetQuoteByID(t *testing.T) {
 		id := "ba28b5"
 		quote, err := db.GetQouteById(context.Background(), id)
 		require.NoError(t, err)
-		require.Equal(t, id, quote.ShortID)
+		require.Equal(t, id, quote.ID)
 		require.NotEmpty(t, quote.Quote)
 	})
 }
