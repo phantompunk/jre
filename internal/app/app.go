@@ -58,9 +58,9 @@ func (a *App) Start(ctx context.Context) error {
 	a.router.HEAD("/", a.head)
 	a.router.GET("/", a.pageHome)
 	a.router.GET("docs", a.pageDocs)
+	a.router.GET("api/", a.getRandomQuote)
 	a.router.GET("api/text", a.pageRefresh)
-	a.router.GET("api/quote", a.getRandomQuote)
-	a.router.GET("api/quote/:id", a.getQuoteById)
+	a.router.GET("api/:id", a.getQuoteById)
 
 	a.router.Run()
 	return nil
