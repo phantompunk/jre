@@ -1,4 +1,4 @@
-module github.com/phantompunk/jre.list
+module github.com/phantompunk/jre.rest
 
 go 1.23.2
 

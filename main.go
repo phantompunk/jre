@@ -7,8 +7,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/phantompunk/jre.list/internal/app"
-	"github.com/phantompunk/jre.list/internal/db"
+	"github.com/phantompunk/jre.rest/internal/app"
+	"github.com/phantompunk/jre.rest/internal/db"
 )
 
 //go:embed assets/*.css assets/*.js assets/*.yaml
@@ -35,7 +35,7 @@ func main() {
 	select {
 	case <-ctx.Done():
 		logger.Println("Shutting down gracefully...")
-	case err := <-errChan:	
+	case err := <-errChan:
 		if err != nil {
 			logger.Fatal("App error:", err)
 			os.Exit(1)

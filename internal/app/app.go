@@ -9,7 +9,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/phantompunk/jre.list/internal/db"
+	"github.com/phantompunk/jre.rest/internal/db"
 )
 
 type App struct {
