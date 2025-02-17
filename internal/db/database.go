@@ -3,9 +3,11 @@ package db
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
+	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -111,4 +113,16 @@ func (d *Database) GetRandomQoute(ctx context.Context) (*Quote, error) {
 		return nil, fmt.Errorf("Unknown error occured querying database: %v", err.Error())
 	}
 	return &q, nil
+}
+
+func GetQuote() (*Quote, error) {
+	res, err := http.Get("https://jre.rest/api")
+	if err != nil {
+	}
+	defer res.Body.Close()
+
+	var quote Quote
+	if err := json.NewDecoder(res.Body).Decode(&quote); err != nil {
+	}
+	return &quote, nil
 }

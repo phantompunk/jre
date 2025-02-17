@@ -28,7 +28,7 @@ func LoadFilesFromEmbedFS(engine *gin.Engine, embedFS fs.FS, pattern string) {
 
 func LoadStaticFilesFromEmbedFS(engine *gin.Engine, embedFS fs.FS, pattern string) {
 	// Serve the embedded static files
-	staticFS, _ := fs.Sub(embedFS, "assets")
+	staticFS, _ := fs.Sub(embedFS, "static")
 	staticServer := http.FS(staticFS)
 	engine.StaticFS(pattern, staticServer)
 }
@@ -52,15 +52,14 @@ func (a *App) Start(ctx context.Context) error {
 		return err
 	}
 
-	LoadFilesFromEmbedFS(a.router, a.templates, "assets/templates/*")
-	LoadStaticFilesFromEmbedFS(a.router, a.assets, "/static")
+	LoadFilesFromEmbedFS(a.router, a.templates, "templates/*")
+	// LoadStaticFilesFromEmbedFS(a.router, a.assets, "/static")
+	a.router.StaticFS("static", http.FS(a.assets))
 
 	a.router.HEAD("/", a.head)
-	a.router.GET("/", a.pageHome)
-	a.router.GET("docs", a.pageDocs)
-	a.router.GET("api/", a.getRandomQuote)
-	a.router.GET("api/text", a.pageRefresh)
-	a.router.GET("api/:id", a.getQuoteById)
+	a.router.GET("/", a.getRandomQuote)
+	a.router.GET("/text", a.pageRefresh)
+	a.router.GET("/:id", a.getQuoteById)
 
 	a.router.Run()
 	return nil
